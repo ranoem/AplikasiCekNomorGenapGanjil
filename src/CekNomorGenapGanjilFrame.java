@@ -1,20 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author abtme
- */
+import javax.swing.JOptionPane;
+
 public class CekNomorGenapGanjilFrame extends javax.swing.JFrame {
-
-    /**
-     * Creates new form CekNomorGenapGanjilFrame
-     */
+    private CekNomorGenapGanjilHelper helper;
+    
     public CekNomorGenapGanjilFrame() {
         initComponents();
+        helper = new CekNomorGenapGanjilHelper();
     }
 
     /**
@@ -62,6 +54,12 @@ public class CekNomorGenapGanjilFrame extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(26, 27, 0, 18);
         jPanel2.add(jLabel2, gridBagConstraints);
+
+        txtInputAngka.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtInputAngkaKeyTyped(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -72,6 +70,11 @@ public class CekNomorGenapGanjilFrame extends javax.swing.JFrame {
         jPanel2.add(txtInputAngka, gridBagConstraints);
 
         btnCek.setText("Cek");
+        btnCek.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCekActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -145,6 +148,32 @@ public class CekNomorGenapGanjilFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekActionPerformed
+        String input = txtInputAngka.getText();
+        if (input.isEmpty()) {
+            lblParitas.setText("Input tidak boleh kosong!");
+            return;
+        }
+        try {
+            int number = Integer.parseInt(input);
+            String result = helper.checkNumber(number);
+            lblParitas.setText(result);
+        } catch (NumberFormatException e) {
+            lblParitas.setText("Input harus berupa angka!");
+        }
+    }//GEN-LAST:event_btnCekActionPerformed
+
+    private void txtInputAngkaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInputAngkaKeyTyped
+        char c = evt.getKeyChar(); 
+        if (!Character.isDigit(c)) {
+            evt.consume(); 
+            JOptionPane.showMessageDialog(txtInputAngka, 
+                "Input hanya boleh angka!", 
+                "Input Error", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_txtInputAngkaKeyTyped
 
     /**
      * @param args the command line arguments
